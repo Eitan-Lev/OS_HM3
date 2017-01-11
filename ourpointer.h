@@ -9,6 +9,7 @@
 #define OS_HM3_OURPOINTER_H_
 
 #include "PageTable.h"
+
 class OurPointer {
 public:
 	OurPointer(int adr, VirtualMemory* vrtlMem); //Constructor
