@@ -27,21 +27,42 @@ public:
 	 * initialize the PageTable, give the pageTable a pointer to this object so it can
 	 * utilize GetFreeFrame and	ReleaseFrame
 	 */
-	VirtualMemory();
+	VirtualMemory() {
+		PhysMem currPhysMem;
+		currPhysMem.Access(); //I think now we have created the physical memory. Not entirely sure TODO
+		for(int i = 0; i < NUMOFFRAMES ; i++) {
+			this->freeFramesList.push(currPhysMem.GetFrame(i));	//Now our list will contain pointers to all frames
+		}
+		this->allocated = 0;
+		//TODO page-table init
+		//TODO giving page-table a pointer to virtual memory
+
+	}
+
 	~VirtualMemory();
+
 	/*
 	 * GetFreeFrame:
 	 * Remove one item from the freeFrameList and return it – suggestion,
 	 * use memset(framePtr, 0, PAGESIZE) before return, might help debugging!
 	 */
-	int* GetFreeFrame();
+	int* GetFreeFrame() {
+		int* freeFramePtr = this->freeFramesList.pop();
+		memset(freeFramePtr, 0 ,PAGESIZE); //Now the entire page would be 0s
+		return freeFramePtr;
+	}
+
 	/*
 	 * ReleaseFrame:
 	 * Releases the frame pointed by the framePointer, make sure you only
 	 * use this function with a pointer to the beginning of the Frame!
 	 * it should be the same pointer as held in the PTE.
 	 */
-	void ReleaseFrame(int* framePointer);
+	void ReleaseFrame(int* framePointer) {
+		free(framePointer);
+		//TODO maybe we should test the ptr given to us to make sure no mistakes are made.
+	}
+
 	/*
 	 * OurPointer:
 	 * Allocates a pointer, we added the code for your convenience
@@ -54,7 +75,11 @@ public:
 		allocated += size;
 		return ptr;
 	}
-	int* GetPage(unsigned int adr) { return pageTable.GetPage(adr); }
+
+	int* GetPage(unsigned int adr) {
+		return pageTable.GetPage(adr);
+	}
+
 private:
 	/*
 	 * allocated:
