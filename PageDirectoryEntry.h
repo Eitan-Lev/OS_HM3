@@ -8,22 +8,39 @@
 #ifndef OS_HW3_PAGEDIRECTORYENTRY_H_
 #define OS_HW3_PAGEDIRECTORYENTRY_H_
 
+#include "PageTableEntry.h"
+
+#define NUM_OF_ENTRIES 1024
+
 /*
- * TODO I Believe this one is basically a duplication of code from PageTableEntry.
- * The only real difference will be the fact that the entries here will actually point
- * to a physical memory entry and not another page table;
- * Actually, it is better if this class will just inherit pageTableEntry
+ * This file will be representing an entry in the outer page table. That means
+ * each entry here is actually an inner page table containing 1024 PageTableEntry.
+ * Note: This is an entry of the outer page table, but it is kind of an inner page
+ * table itself. This why we'll inherit the inner entries and add functionality.
  */
 
-class PageDirectoryEntry { //FIXME ALL the code here is actually pageTableEntry code from the pdf, not directory
+class PageDirectoryEntry : public PageTableEntry{
 public:
-	//Your Constructor (and Destructor if you need one) should go here
-	int* get_page_address(); //Pointer to beginning of frame  
-	void set_page_address(int* adr); //Set the pointer to a frame
-	bool is_valid(); //Returns whether the entry is valid
-	void set_valid(bool valid); //Allows to set whether the entry is valid
+	//Notice the default constructor intentionally does !not allocate! entries.
+	//This is done in order to mimic the behavior of a linux system.
+	PageDirectoryEntry() : _valid(false),_innerTable(NULL) {}
+
+	~PageDirectoryEntry() {
+		free(_innerTable);
+	}
+
+	int* get_page_address(int innerTableEntry, VirtualMemory* virtmem) override {
+
+	}
+
+	void set_page_address(int innerTableEntry, int* adr) override {
+	}
+
+	//set_valid and is_valid functions are also here. They are inherited as-is.
+
+
 private:
-	//Fill the class with the necessary member variables
+	PageTableEntry* _innerTable;
 };
 
 
