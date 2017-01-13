@@ -13,8 +13,8 @@
 #include <string.h>
 #include <iostream>
 #define PAGESIZE 4096
-class SwapDevice
-{
+
+class SwapDevice {
 public:
 	SwapDevice() : _size(0) {}
 	/*
