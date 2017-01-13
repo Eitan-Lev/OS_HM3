@@ -8,6 +8,7 @@
 #ifndef UNITTESTS_H_
 #define UNITTESTS_H_
 
+
 #include <iostream>
 
 using std::cout;
@@ -20,14 +21,14 @@ using std::endl;
 
 #define ASSERT_TRUE(a) do { \
 		if((a) != true) { \
-			cout << __LINE__ << ": expected 'true' but recieved something else." << endl; \
+			cout << __LINE__ << ": expected 'true' but received something else." << endl; \
 			return false; \
 		} \
 	} while (0)
 
 #define ASSERT_FALSE(a) do { \
 		if((a) != false) { \
-			cout << __LINE__ << ": expected 'false' but recieved something else." << endl; \
+			cout << __LINE__ << ": expected 'false' but received something else." << endl; \
 			return false; \
 		} \
 	} while (0)
