@@ -7,6 +7,8 @@
 
 #include "SwapDevice.h"
 using namespace std;
+/** Causes compilation to fail. FIXME
+
 void SwapDevice::WriteFrameToSwapDevice(int pageNumber, int* pageOut) {
 	if (_data[pageNumber] == NULL) {
 		if (++_size > 1048576) {
@@ -24,3 +26,4 @@ int SwapDevice::ReadFrameFromSwapDevice(int pageNumber, int* pageIn) {
 	return 0;
 }
 
+**/

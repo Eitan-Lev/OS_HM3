@@ -17,13 +17,35 @@ public:
 	//Notice the default constructor is intentionally !allocating! entries.
 	//This is done in order to mimic the behavior of a linux system.
 	PageTable(VirtualMemory* virtMem) : _virtMem(virtMem) {
-		_outerPageTable = (PageDirectoryEntry*)malloc(sizeof(PageDirectoryEntry)*NUM_OF_ENTRIES);
+		//_outerPageTable = (PageDirectoryEntry*)malloc(sizeof(PageDirectoryEntry)*NUM_OF_ENTRIES);
+		//FIXME the pdf says malloc. But malloc does not call constructors. is new okay?
+		_outerPageTable = new PageDirectoryEntry[NUM_OF_ENTRIES];
 		//After that action we have 1024 un-initialized Page Directory Entries
 	}
 
 	//Here we get a virtual address of a page and we are expected to return a
 	//pointer to the frame where it is located.
 	int* GetPage (unsigned int adr) {
+		//Separating the virtual address into meaningful numbers.
+		int pageDirectoryEntryNum = (createMask(22,31) & adr);
+		int pageTableEntryNum = (createMask(12,21) & adr);
+		int offset = (createMask(0,11) & adr);
+
+		//Checking if the inner table is valid. If not- allocating it.
+		int* frameAdr = _outerPageTable[pageDirectoryEntryNum].get_page_address(pageTableEntryNum);
+		if(frameAdr == NULL) {
+			_outerPageTable[pageDirectoryEntryNum] = _outerPageTable[pageDirectoryEntryNum].create_inner_table();
+			_outerPageTable[pageDirectoryEntryNum].set_valid(true);
+		}
+
+		//Checking if the inner table entry is valid. If not- linking it to a free address.
+		if(!_outerPageTable[pageDirectoryEntryNum].is_inner_entry_valid(pageTableEntryNum)) {
+			int* freeAdr = _virtMem->GetFreeFrame();
+			_outerPageTable[pageDirectoryEntryNum].set_page_address(pageTableEntryNum, freeAdr);
+		}
+
+		//Returning the physical address
+		return _outerPageTable[pageDirectoryEntryNum].get_page_address(pageTableEntryNum);
 	}
 
 private:
