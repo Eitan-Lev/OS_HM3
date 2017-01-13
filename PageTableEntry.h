@@ -21,7 +21,7 @@ public:
 	PageTableEntry() : _valid(false),_framePointedBegining(NULL) {}
 		//When invoking this constructor that means we are creating an entry
 		//inside the inner page table
-	~PageTableEntry() {}
+	~PageTableEntry() = default;
 	int* get_page_address() {
 		//Pointer to beginning of frame  
 		return _framePointedBegining;

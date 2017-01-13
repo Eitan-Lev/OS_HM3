@@ -62,7 +62,6 @@ bool pageDirectoryEntryTest() {
 			ERROR_AND_PRINT("inner entries are created and they are not supposed to.");
 		}
 	}
-
 	return true;
 }
 
