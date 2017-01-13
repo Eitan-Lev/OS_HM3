@@ -65,7 +65,7 @@ public:
 
 	/*
 	 * OurPointer:
-	 * Allocates a pointer, we added the code for your convenience
+	 * Allocates a pointer, we added the code for your convenience.
 	 */
 	OurPointer OurMalloc(size_t size) {
 		if (allocated + size >= (VIRTMEMSIZE >> 2)) {

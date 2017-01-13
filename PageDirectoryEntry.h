@@ -33,7 +33,7 @@ public:
 
 	void create_inner_table() {
 		//_innerTable = (PageTableEntry*)malloc(sizeof(PageTableEntry)*NUM_OF_ENTRIES);
-		//FIXME the pdf says malloc. But malloc does not call constructors. is new okay?
+		//FIXME the pdf says malloc. But malloc does not call constructors. is new okay? check.
 		_innerTable = new PageTableEntry[NUM_OF_ENTRIES];
 	}
 

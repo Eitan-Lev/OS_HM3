@@ -10,7 +10,7 @@
 
 #include "PageDirectoryEntry.h"
 
-//TODO support in log file should be added
+//TODO support in log file should be added, as requested in pdf
 
 class PageTable {
 public:

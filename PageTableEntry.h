@@ -13,7 +13,7 @@
 /*
  * This file will represent each entry in the inner page table. That means that
  * each PageTableEntry has a pointer to a specific frame representing where the
- * page is kept- either in memory or in swap area.
+ * page is kept- either in memory or in swap area
  */
 
 class PageTableEntry {

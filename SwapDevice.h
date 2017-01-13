@@ -21,7 +21,7 @@ public:
 	 * WriteFrameToSwapDevice:
 	 * Write the content of page to the swap device,
 	 * "pageOut" is the frame base pointer where the
-	 * page is now allocated
+	 * page is now allocated.
 	 */
 	void WriteFrameToSwapDevice(int pageNumber, int* pageOut);
 	/*

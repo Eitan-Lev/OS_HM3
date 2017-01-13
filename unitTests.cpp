@@ -58,7 +58,6 @@ bool pageDirectoryEntryTest() {
 	ent1.set_valid(true);
 	for(int i = 0; i < NUM_OF_ENTRIES ; i++) {
 		if(ent1.is_inner_entry_valid(i)) {
-			cout << "inner entry number " << i << endl;
 			ERROR_AND_PRINT("inner entries are created and they are not supposed to.");
 		}
 	}
