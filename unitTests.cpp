@@ -9,7 +9,7 @@
 #include "PhysMem.h"
 #include "PageTableEntry.h"
 #include "PageDirectoryEntry.h"
-
+#include "SwapDeviceTest.h"//FIXME for eitan tests
 
 /**
  * Very basic tests, just to make sure everything is okay.
@@ -69,6 +69,7 @@ bool pageDirectoryEntryTest() {
 int main() {
 	RUN_TEST("pageTableEntryTest",pageTableEntryTest());
 	RUN_TEST("pageDirectoryEntryTest",pageDirectoryEntryTest());
+	EitanTests();//Will run test and all in the other file
 	return 0;
 }
 
