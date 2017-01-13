@@ -9,6 +9,10 @@
 #define OS_HW3_PAGEDIRECTORYENTRY_H_
 
 #include "PageTableEntry.h"
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 #define NUM_OF_ENTRIES 1024
 
@@ -38,6 +42,9 @@ public:
 	}
 
 	bool is_inner_entry_valid(int innerTableEntry) {
+		if(_valid == false) {
+			return false;
+		}
 		return _innerTable[innerTableEntry].is_valid();
 	}
 

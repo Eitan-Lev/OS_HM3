@@ -9,6 +9,8 @@
 #include "PhysMem.h"
 #include "PageTableEntry.h"
 #include "PageDirectoryEntry.h"
+#include "PageTable.h"
+#include "VirtualMemory.h"
 
 
 /**
@@ -61,6 +63,37 @@ bool pageDirectoryEntryTest() {
 			ERROR_AND_PRINT("inner entries are created and they are not supposed to.");
 		}
 	}
+
+	int phys1 = 1, phys2 = 2, phys3 = 3;
+	ent1.set_page_address(100, &phys1);
+	ent1.set_page_address(200, &phys2);
+	ent1.set_page_address(300, &phys3);
+	ASSERT_FALSE(ent1.is_inner_entry_valid(99));
+	ASSERT_TRUE(ent1.is_inner_entry_valid(100));
+	ASSERT_TRUE(ent1.get_page_address(100) == &phys1);
+	ASSERT_TRUE(ent1.is_inner_entry_valid(200));
+	ASSERT_TRUE(ent1.get_page_address(200) == &phys2);
+	ASSERT_TRUE(ent1.is_inner_entry_valid(300));
+	ASSERT_TRUE(ent1.get_page_address(300) == &phys3);
+	ASSERT_FALSE(ent2.is_inner_entry_valid(0));
+	ASSERT_FALSE(ent2.is_inner_entry_valid(1023));
+	ASSERT_FALSE(ent2.is_inner_entry_valid(100));
+
+	return true;
+}
+
+bool pageTableTest() {
+	//What we are doing here is not recommended. We'll create the virtual memory,
+	//then create a page table and link it to the VM we created. It shouldn't be
+	//done in program and it is done here only so we can test pageTable.
+	VirtualMemory mem;
+	PageTable PT(&mem);
+
+	ASSERT_TRUE(PT.createMask(0,11) == 4095);
+	ASSERT_TRUE(PT.createMask(12,21) == 4190208);
+	ASSERT_TRUE(PT.createMask(22,31) == 4290772992);
+
+
 	return true;
 }
 
