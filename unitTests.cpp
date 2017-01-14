@@ -93,10 +93,26 @@ bool pageTableTest() {
 	ASSERT_TRUE(PT.createMask(12,21) == 4190208);
 	ASSERT_TRUE(PT.createMask(22,31) == 4290772992);
 
+	//Checking GetPage which is the major function. Because we can't use ourmalloc
+	//here the only test possible is assigning random virtual addresses to physical addresses
+	int* ptrStart = PT.GetPage(0);
+	ASSERT_TRUE(ptrStart != NULL);
+	int* ptr1 = PT.GetPage(1);
+	ASSERT_TRUE(ptr1 != NULL);
+	int* ptr1001 = PT.GetPage(1001);
+	ASSERT_TRUE(ptr1001 != NULL);
+	int* ptr10002 = PT.GetPage(10002);
+	ASSERT_TRUE(ptr10002 != NULL);
+	//Reaching the final virtual address - 2^20-1
+	int* ptrEnd = PT.GetPage(1048576);
+	ASSERT_TRUE(ptrEnd != NULL);
 
 	return true;
 }
 
+bool ourPointerTest() {
+
+}
 
 
 int main() {

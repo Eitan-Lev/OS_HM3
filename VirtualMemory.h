@@ -11,7 +11,8 @@
 #include <queue>
 #include <unordered_set>
 #include <cstring>
-#include "ourpointer.h"
+
+#include "OurPointer.h"
 #include "PhysMem.h"
 #include "PageTable.h"
 
@@ -38,16 +39,21 @@ public:
 	 * initialize the PageTable, give the pageTable a pointer to this object so it can
 	 * utilize GetFreeFrame and	ReleaseFrame
 	 */
-	VirtualMemory(): pageTable(this) {
+	VirtualMemory(): allocated(0), freeFramesList(queue<int*>()), pageTable(PageTable(this)) {
 		PhysMem currPhysMem;
 		currPhysMem.Access(); //I think now we have created the physical memory. Not entirely sure TODO
 		for(int i = 0; i < NUMOFFRAMES ; i++) {
 			this->freeFramesList.push(currPhysMem.GetFrame(i));	//Now our list will contain pointers to all frames
 		}
-		this->allocated = 0;
 	}
 
-	~VirtualMemory();
+	~VirtualMemory() {
+		allocated = 0;
+		while(!(freeFramesList.empty())) {
+			freeFramesList.pop();
+		}
+		//TODO might leak because we didn't free it?
+	}
 
 	/*
 	 * GetFreeFrame:

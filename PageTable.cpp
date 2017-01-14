@@ -6,6 +6,7 @@
  */
 
 #include "PageTable.h"
+#include "VirtualMemory.h"
 
 //TODO support in log file should be added, as requested in pdf
 

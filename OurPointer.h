@@ -12,8 +12,10 @@
 
 class OurPointer {
 public:
-	OurPointer(int adr, VirtualMemory* vrtlMem); //Constructor
-	~OurPointer(); //Destructor
+	//Constructor
+	OurPointer(int adr, VirtualMemory* vrtlMem): _adr(adr), _vrtlMem(vrtlMem){}
+	//Destructor
+	~OurPointer() = default;
 	int& operator*(); //Overload operator*
 	OurPointer& operator++(); //Overload ++operator
 	OurPointer operator++(int); //Overload operator++
