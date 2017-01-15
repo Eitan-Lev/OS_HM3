@@ -1,7 +1,7 @@
 /*
  * VirtualMemory.cpp
  *
- *  Created on: 13 áéðå× 2017
+ *  Created on: 13 ï¿½ï¿½ï¿½ï¿½ï¿½ 2017
  *      Author: Amit
  */
 
@@ -9,7 +9,7 @@
 
 /*
  * GetFreeFrame:
- * Remove one item from the freeFrameList and return it – suggestion,
+ * Remove one item from the freeFrameList and return it ï¿½ suggestion,
  * use memset(framePtr, 0, PAGESIZE) before return, might help debugging!
  */
 int* VirtualMemory::GetFreeFrame() {

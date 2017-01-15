@@ -1,7 +1,7 @@
 /*
  * VirtualMemory.h
  *
- *  Created on: 10 áéðå 2017
+ *  Created on: 10 ï¿½ï¿½ï¿½ï¿½ 2017
  *      Author: Eitan Levin
  */
 
@@ -57,7 +57,7 @@ public:
 
 	/*
 	 * GetFreeFrame:
-	 * Remove one item from the freeFrameList and return it – suggestion,
+	 * Remove one item from the freeFrameList and return it ï¿½ suggestion,
 	 * use memset(framePtr, 0, PAGESIZE) before return, might help debugging!
 	 */
 	int* GetFreeFrame();

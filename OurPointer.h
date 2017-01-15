@@ -1,7 +1,7 @@
 /*
  * ourpointer.h
  *
- *  Created on: 10 áéðå 2017
+ *  Created on: 10 ï¿½ï¿½ï¿½ï¿½ 2017
  *      Author: Eitan Levin
  */
 
@@ -13,19 +13,22 @@
 class OurPointer {
 public:
 	//Constructor
-	OurPointer(int adr, VirtualMemory* vrtlMem): _adr(adr), _vrtlMem(vrtlMem){}
+	OurPointer(int adr, VirtualMemory* vrtlMem): _adr(adr){
+		 _vrtlMem = vrtlMem;
+	}
 	//Destructor
 	~OurPointer() = default;
 	int& operator*(); //Overload operator*
 	OurPointer& operator++(); //Overload ++operator
 	OurPointer operator++(int); //Overload operator++
 	OurPointer& operator--(); //Overload operator--
-	OurPointer operator--(int); //Overload --operator
+	OurPointer operator--(int); //Overloadï¿½--operator
+	unsigned int _adr; //the virtual address TODO return to private
+	VirtualMemory* _vrtlMem; //for requesting translations TODO same
+
 private:
-	unsigned int _adr; //the virtual address
-	VirtualMemory* _vrtlMem; //for requesting translations
+
+
 };
-
-
 
 #endif /* OS_HM3_OURPOINTER_H_ */

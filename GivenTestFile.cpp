@@ -1,7 +1,7 @@
 /*
  * GivenTestFile.cpp
  *
- *  Created on: 14 áéðå× 2017
+ *  Created on: 14 ï¿½ï¿½ï¿½ï¿½ï¿½ 2017
  *      Author: Amit
  */
 
@@ -10,7 +10,7 @@
 #include "OurPointer.h"
 #include "VirtualMemory.h"
 
-#define VECSIZE 50
+#define VECSIZE 3
 
 using namespace std;
 
@@ -31,19 +31,30 @@ int main(){
 
 	srand(1);
 	for (int i = 0; i < VECSIZE * VECSIZE; ++i) {
-		*(mat++) = rand() % 100;
+		//*(mat++) = rand() % 100;
+		*mat = rand() % 100;
+		cout << "MATRIX variable number " << i << ": " << (*mat) << " and address is " << mat._vrtlMem->GetPage(mat._adr) << endl;
+		(mat++);
+
 	}
 	mat = matBase;
+	//cout << "mat address is " << mat._vrtlMem->GetPage(mat._adr) << endl;
+	//cout << "matBase address is " << matBase._vrtlMem->GetPage(mat._adr) << endl;
+
 	for (int i = 0; i < VECSIZE; ++i) {
-		*(vec++) = rand() % 20000;
+		//*(vec++) = rand() % 20000;
+		*vec = rand() % 20000;
+		//cout << "VECTOR variable number " << i << ": " << " and address is " << vec._vrtlMem->GetPage(mat._adr) << endl;
 		*(res++) = 0;
 	}
 	vec = vecBase;
 	res = resBase;
+
 	for (int row = 0; row < VECSIZE; ++row) {
 		for (int col = 0; col < VECSIZE; ++col) {
 			//*res += (*(mat++)) * (*(vec++)); //it works, but accesses to operator* might happen in an unspecified order
 			int mat_value = *(mat++); //our fix for log
+			//cout << "<Printing >MATRIX variable (" << row << "," << col << ")"  << ": " << mat_value << " and address is " << mat._vrtlMem->GetPage(mat._adr) << endl;
 			*res += (mat_value) * (*(vec++)); //log file consistency
 		}
 		vec = vecBase;
