@@ -83,7 +83,7 @@ public:
 		if (allocated + size >= (VIRTMEMSIZE >> 2)) {
 			throw "We are limited to 4294967296 bytes with our 32 bit address size";
 		}
-		OurPointer ptr(allocated * 4, this); //FIXME 4 = sizeof(int). i BELIEVE IT IS BUGGY UNLESS WE DO IT
+		OurPointer ptr(allocated, this);
 		allocated += size;
 		return ptr;
 	}

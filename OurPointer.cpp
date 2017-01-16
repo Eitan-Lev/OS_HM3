@@ -13,14 +13,14 @@ static unsigned int createMask(unsigned int start, unsigned int finish);
 //Operator that returns the int pointed by OurPointer
 int& OurPointer::operator*() {
 	unsigned int offset = (_adr & createMask(0,11));
-	return *(_vrtlMem->GetPage(_adr) + offset);
+	return *(_vrtlMem->GetPage(_adr) + offset * 4);
+	//FIXME!! This will be an error when there is more than one page/frame saved in physical memory
 }
 
 //Overload ++operator
 OurPointer& OurPointer::operator++() {
-	_adr += sizeof(_adr);
-	//FIXME if a OurPointer p1 is connected to a Physical address no. 0 for example.. when we increment it
-	//just lose its connection to it?
+	//_adr += sizeof(_adr); TODO this is how we thought it should be. but maybe address should only store up to 1024?
+	_adr++;
 	return *this;
 }
 
@@ -33,7 +33,8 @@ OurPointer OurPointer::operator++(int) {
 
 //Overload --operator TODO mistake in pdf??
 OurPointer& OurPointer::operator--() {
-	_adr -= sizeof(_adr);
+	//_adr -= sizeof(_adr);
+	_adr--;
 	return *this;
 }
 
