@@ -34,6 +34,9 @@ private:
 	PageTable pageTable;
 
 public:
+	//TODO just for debugging!
+	PhysMem* mem;
+
 	/*
 	 * VirtualMemory: Initialize freeFramesList to contain all 64 frame	pointers as given by PhysMem Class,
 	 * initialize the PageTable, give the pageTable a pointer to this object so it can
@@ -45,6 +48,8 @@ public:
 		for(int i = 0; i < NUMOFFRAMES ; i++) {
 			this->freeFramesList.push(currPhysMem.GetFrame(i));	//Now our list will contain pointers to all frames
 		}
+		//TODO only for debugging
+		mem = &currPhysMem;
 	}
 
 	~VirtualMemory() {
@@ -78,7 +83,7 @@ public:
 		if (allocated + size >= (VIRTMEMSIZE >> 2)) {
 			throw "We are limited to 4294967296 bytes with our 32 bit address size";
 		}
-		OurPointer ptr(allocated, this);
+		OurPointer ptr(allocated * 4, this); //FIXME 4 = sizeof(int). i BELIEVE IT IS BUGGY UNLESS WE DO IT
 		allocated += size;
 		return ptr;
 	}
@@ -88,6 +93,5 @@ public:
 	}
 
 };
-
 
 #endif /* OS_HM3_VIRTUALMEMORY_H_ */

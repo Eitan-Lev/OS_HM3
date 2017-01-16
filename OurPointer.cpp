@@ -12,7 +12,8 @@ static unsigned int createMask(unsigned int start, unsigned int finish);
 
 //Operator that returns the int pointed by OurPointer
 int& OurPointer::operator*() {
-	return *(_vrtlMem->GetPage(_adr) + (_adr & createMask(0,11)));
+	unsigned int offset = (_adr & createMask(0,11));
+	return *(_vrtlMem->GetPage(_adr) + offset);
 }
 
 //Overload ++operator
