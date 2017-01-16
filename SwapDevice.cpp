@@ -7,11 +7,10 @@
 
 #include "SwapDevice.h"
 using namespace std;
-/** Causes compilation to fail. FIXME
 
 void SwapDevice::WriteFrameToSwapDevice(int pageNumber, int* pageOut) {
 	if (_data[pageNumber] == NULL) {
-		if (++_size > 1048576) {
+		if (++_size > MAX_SPACE_ALLOWED) {
 			cerr << "The swap device seems to be using too much space, worth investigating" << endl;
 		}
 		_data[pageNumber] = (int*)malloc(PAGESIZE);
@@ -20,10 +19,12 @@ void SwapDevice::WriteFrameToSwapDevice(int pageNumber, int* pageOut) {
 }
 int SwapDevice::ReadFrameFromSwapDevice(int pageNumber, int* pageIn) {
 	if (_data[pageNumber] == NULL) {
-		return -1;
+		return FRAME_NOT_ALLOCATED;
 	}
 	memcpy(pageIn, _data[pageNumber], PAGESIZE);
-	return 0;
+	return SUCCESS;
 }
 
-***/
+size_t SwapDevice::size() {
+	return this->_size;
+}

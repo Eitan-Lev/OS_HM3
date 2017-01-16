@@ -114,6 +114,8 @@ bool pageTableTest() {
 int main() {
 	RUN_TEST("pageTableEntryTest",pageTableEntryTest());
 	RUN_TEST("pageDirectoryEntryTest",pageDirectoryEntryTest());
+	RUN_TEST("pageTableTest",pageTableTest());
 	return 0;
 }
+
 
