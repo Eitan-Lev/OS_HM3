@@ -13,8 +13,25 @@
  * use memset(framePtr, 0, PAGESIZE) before return, might help debugging!
  */
 int* VirtualMemory::GetFreeFrame() {
-	int* freeFramePtr = this->freeFramesList.front();
-	this->freeFramesList.pop();
+	cout << "GetFreeFrame was asked for a frame. The list still has " << freeFramesList.size() << endl; //FIXME debug only
+	do { } while(0);
+	if(freeFramesList.empty() == true) {
+		unsigned int oldestPage = allocationOrder.front();
+		int* oldestFrame = pageTable.GetPage(oldestPage);
+
+		int directoryEntryNum;
+		int tableEntryNum;
+		GET_MSB_BITS(oldestPage, directoryEntryNum);
+		GET_MIDDLE_BITS(oldestPage, tableEntryNum);
+
+		ReleaseFrame(oldestFrame);
+		pageTable.setTableEntryInvalid(directoryEntryNum, tableEntryNum);
+		allocationOrder.pop();
+	}
+
+	//Now we are sure we still have free frames in memory
+	int* freeFramePtr = freeFramesList.front();
+	freeFramesList.pop();
 	memset(freeFramePtr, 0 ,PAGESIZE); //Now the entire page would be 0s
 	return freeFramePtr;
 }
@@ -25,9 +42,15 @@ int* VirtualMemory::GetFreeFrame() {
  * use this function with a pointer to the beginning of the Frame!
  * it should be the same pointer as held in the PTE.
  */
+
 void VirtualMemory::ReleaseFrame(int* framePointer) {
-	free(framePointer);
-	//TODO maybe we should test the ptr given to us to make sure no mistakes are made.
+	//TODO this function should be used when we want to swap out. we can use it
+	//to utilize some of the work done in GetFreeFrame.
+	int frameNumber = framePointer - PhysMem::Access().GetFrame(0);
+	//TODO should we alter the result we get?? here we did it with frame size
+	frameNumber /= 1024;
+	swap.WriteFrameToSwapDevice(frameNumber, framePointer);
+	freeFramesList.push(framePointer);
 }
 
 

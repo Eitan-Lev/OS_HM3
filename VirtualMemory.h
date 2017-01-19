@@ -15,10 +15,12 @@
 #include "OurPointer.h"
 #include "PhysMem.h"
 #include "PageTable.h"
+#include "SwapDevice.h"
+#include "MacroDefine.h"
 
 #define PAGESIZE 4096
 #define VIRTMEMSIZE 4294967296
-#define NUMOFFRAMES 64
+
 using namespace std;
 
 class VirtualMemory {
@@ -29,27 +31,27 @@ private:
 	 * The number of ints already allocated, ((allocated * 4) = (number of bytes already allocated)),
 	 * this can also be used as the next address to be allocated.
 	 */
-	size_t allocated;
-	queue<int*> freeFramesList;
-	PageTable pageTable;
+
 
 public:
-	//TODO just for debugging!
-	PhysMem* mem;
+	size_t allocated; //TODO move all this stuff to private
+		queue<int*> freeFramesList;
+		PageTable pageTable;
+		SwapDevice swap;
+		queue<unsigned int> allocationOrder;
 
+	int* physmemAdds[NUMOFFRAMES] = {0}; //TODO debug
 	/*
 	 * VirtualMemory: Initialize freeFramesList to contain all 64 frame	pointers as given by PhysMem Class,
 	 * initialize the PageTable, give the pageTable a pointer to this object so it can
 	 * utilize GetFreeFrame and	ReleaseFrame
 	 */
-	VirtualMemory(): allocated(0), freeFramesList(queue<int*>()), pageTable(PageTable(this)) {
-		PhysMem currPhysMem;
-		currPhysMem.Access(); //I think now we have created the physical memory. Not entirely sure TODO
+	VirtualMemory(): allocated(0), freeFramesList(queue<int*>()), pageTable(PageTable(this)), swap(SwapDevice()), \
+			allocationOrder(queue<unsigned int>()){
 		for(int i = 0; i < NUMOFFRAMES ; i++) {
-			this->freeFramesList.push(currPhysMem.GetFrame(i));	//Now our list will contain pointers to all frames
+			freeFramesList.push(PhysMem::Access().GetFrame(i));	//Now our list will contain pointers to all frames
+			physmemAdds[i] = PhysMem::Access().GetFrame(i); //TODO debug only
 		}
-		//TODO only for debugging
-		mem = &currPhysMem;
 	}
 
 	~VirtualMemory() {

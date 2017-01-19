@@ -12,6 +12,7 @@
 #include <iostream>
 
 using namespace std;
+
 #define PHYSMEMSZ 262144
 
 class PhysMem {
@@ -26,7 +27,5 @@ public:
 	void operator=(PhysMem const&) = delete;
 	int* GetFrame(int frameNumber);
 };
-
-
 
 #endif /* PHYSMEM_H_ */
