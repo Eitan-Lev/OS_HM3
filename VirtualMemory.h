@@ -34,8 +34,8 @@ private:
 	PageTable pageTable;
 
 public:
-	//TODO just for debugging!
-	PhysMem* mem;
+
+	int* frameAddresses[64]; // debug
 
 	/*
 	 * VirtualMemory: Initialize freeFramesList to contain all 64 frame	pointers as given by PhysMem Class,
@@ -43,13 +43,10 @@ public:
 	 * utilize GetFreeFrame and	ReleaseFrame
 	 */
 	VirtualMemory(): allocated(0), freeFramesList(queue<int*>()), pageTable(PageTable(this)) {
-		PhysMem currPhysMem;
-		currPhysMem.Access(); //I think now we have created the physical memory. Not entirely sure TODO
 		for(int i = 0; i < NUMOFFRAMES ; i++) {
-			this->freeFramesList.push(currPhysMem.GetFrame(i));	//Now our list will contain pointers to all frames
+			this->freeFramesList.push(PhysMem::Access().GetFrame(i));	//Now our list will contain pointers to all frames
+			frameAddresses[i] = PhysMem::Access().GetFrame(i); //debug TODO
 		}
-		//TODO only for debugging
-		mem = &currPhysMem;
 	}
 
 	~VirtualMemory() {

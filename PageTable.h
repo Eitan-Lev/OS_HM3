@@ -41,16 +41,6 @@ public:
 	//pointer to the frame where it is located.
 	int* GetPage (unsigned int adr);
 
-	/***
-	 * createMask()
-	 * Description: A method used to create a bit-mask.
-	 * Parameters: start- the bit which we want to start extracting from.
-	 * 			   finish- the bit we want to finish at (including!).
-	 * The function operates by first creating a 32-bit variable with all zeros.
-	 * It then assigns 1 into each bit we want to keep.
-	 */
-	unsigned int createMask(unsigned int start, unsigned int finish);
-
 };
 
 

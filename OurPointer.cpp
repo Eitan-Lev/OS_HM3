@@ -7,13 +7,15 @@
 
 #include "OurPointer.h"
 #include "VirtualMemory.h"
-
-static unsigned int createMask(unsigned int start, unsigned int finish);
+#include "MacroDefine.h"
 
 //Operator that returns the int pointed by OurPointer
 int& OurPointer::operator*() {
-	unsigned int offset = (_adr & createMask(0,11));
-	return *(_vrtlMem->GetPage(_adr) + offset * 4);
+	unsigned int virtualAddress = _adr;
+	int offset;
+	CHANGE_ADR_INT_TO_ADR(virtualAddress);
+	GET_OFFSET_BITS(virtualAddress, offset);
+	return *(_vrtlMem->GetPage(_adr) + offset);
 	//FIXME!! This will be an error when there is more than one page/frame saved in physical memory
 }
 
@@ -44,12 +46,3 @@ OurPointer OurPointer::operator--(int) {
 	this->operator--(); //Using the pre-fix operator we already overloaded
 	return beforeDecrement;
 }
-
-static unsigned int createMask(unsigned int start, unsigned int finish) {
-	   unsigned int mask = 0;
-	   for (unsigned int i = start; i<= finish; i++) {
-		   mask |= 1 << i;
-	   }
-	   return mask;
-	}
-

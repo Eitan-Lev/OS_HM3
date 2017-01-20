@@ -2,7 +2,7 @@
 #include<fstream>
 #include "OurPointer.h"
 #include "VirtualMemory.h"
-#define VECSIZE 50
+#define VECSIZE 3
 
 using namespace std;
 

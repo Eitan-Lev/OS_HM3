@@ -1,7 +1,7 @@
 /*
  * MacroDefine.h
  *
- *  Created on: 13 αιπε 2017
+ *  Created on: 13 Γ‘Γ©Γ°Γ₯ 2017
  *      Author: Eitan Levin
  */
 
@@ -12,7 +12,24 @@
 #define SUCCESS 0
 #define MAX_SPACE_ALLOWED (1048576)
 
+#define NUMOFFRAMES 64
 
+#define GET_OFFSET_BITS(adr, saveto) do { \
+		saveto = adr & 4095; \
+		} while(0)
 
+#define GET_MIDDLE_BITS(adr, saveto) do { \
+		saveto = adr & 4190208; \
+		saveto = saveto >> 12; \
+		} while(0)
+
+#define GET_MSB_BITS(adr, saveto) do { \
+		saveto= adr & 4290772992; \
+		saveto = saveto >> 22; \
+		} while(0)
+
+#define CHANGE_ADR_INT_TO_ADR(adr) do { \
+		adr *= 4; \
+		} while(0)
 
 #endif /* OS_HM3_MACRODEFINE_H_ */
